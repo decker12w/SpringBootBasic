@@ -22,12 +22,22 @@ public class UserService {
     private UserRepository repository;
 
     public List<User> findAll() {
-        return repository.findAll();
+        try {
+            return repository.findAll();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Found no user");
+        }
+
     }
 
     public User findById(Long id) {
-        Optional<User> obj = repository.findById(id);
-        return obj.get();
+        try {
+            Optional<User> obj = repository.findById(id);
+            return obj.get();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(id);
+        }
+
     }
 
     public User insert(User obj) {
